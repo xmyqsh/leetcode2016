@@ -7,7 +7,7 @@ public:
         return result;
     }
     void travel(vector<vector<int> >* result, vector<int>& path, int n, int k, int cur) {
-        if (path.size() == 2) {
+        if (path.size() == k) {
             result->push_back(path);
             return;
         }
