@@ -5,7 +5,6 @@ public:
         vector<int> height(matrix[0].size() + 1, 0);
         int maxArea = 0;
         for (int i = 0; i < matrix.size(); ++i) {
-            int curLeft = 0, curRight = matrix[0].size();
             for (int j = 0; j < matrix[0].size(); ++j) {
                 if (matrix[i][j] == '1') ++height[j];
                 else height[j] = 0;
