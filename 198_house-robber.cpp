@@ -8,3 +8,16 @@ public:
         return dp[nums.size() - 1];
     }
 };
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int best2 = 0, best1 = 0;
+        for (int i = 0; i < nums.size(); ++i) {
+            const int tmp = nums[i] + best2;
+            best2 = best1;
+            best1 = max(best1, tmp);
+        }
+        return best1;
+    }
+};
