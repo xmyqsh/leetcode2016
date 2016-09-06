@@ -1,3 +1,4 @@
+// 3ms
 class Solution {
 public:
     int addDigits(int num) {
