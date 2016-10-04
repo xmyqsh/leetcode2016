@@ -1,3 +1,5 @@
+// fix a bad test case of [[1,1],[1,-1],[0,0]] which gets a wrong answer but leetcode don't recognize.
+
 /**
  * Definition for a point.
  * struct Point {
@@ -15,7 +17,7 @@ public:
         for (int i = 0; i < points.size() - result; ++i) {
             int nSame = 1;
             for (int j = i + 1; j < points.size(); ++j) {
-                if (points[i].x == points[j].x || points[i].y == points[j].y) {
+                if (points[i].x == points[j].x && points[i].y == points[j].y) {
                     ++nSame;
                     continue;
                 }
