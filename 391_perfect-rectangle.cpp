@@ -80,3 +80,42 @@ public:
         return false;
     }
 };
+
+// Accepted
+class Solution {
+public:
+    bool isRectangleCover(vector<vector<int>>& rectangles) {
+        unordered_map<int, unordered_map<int, int> > cornerCnt;
+        int minX = INT_MAX, minY = INT_MAX, maxX = INT_MIN, maxY = INT_MIN;
+        for (auto rect : rectangles) {
+            minX = min(minX, rect[0]);
+            minY = min(minY, rect[1]);
+            maxX = max(maxX, rect[2]);
+            maxY = max(maxY, rect[3]);
+            if (!insertCorner(cornerCnt, rect[0], rect[1], 1)) return false;
+            if (!insertCorner(cornerCnt, rect[0], rect[3], 2)) return false;
+            if (!insertCorner(cornerCnt, rect[2], rect[3], 4)) return false;
+            if (!insertCorner(cornerCnt, rect[2], rect[1], 8)) return false;
+        }
+        /*
+        vector<int> validCorner(16, false);
+        validCorner[3] = validCorner[6] = validCorner[9] = validCorner[12] = validCorner[15] = true;
+        */
+        for (auto elemX : cornerCnt) {
+            int x = elemX.first;
+            for (auto elemY : elemX.second) {
+                int y = elemY.first, mask = elemY.second;
+                if (!((x == minX || x == maxX) && (y == minY || y == maxY)) && /*!validCorner[mask]*/ (mask % 3)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    bool insertCorner(unordered_map<int, unordered_map<int, int> >& cornerCnt, int x, int y, int pos) {
+        int& m = cornerCnt[x][y];
+        if (m & pos) return false;
+        m |= pos;
+        return true;
+    }
+};
