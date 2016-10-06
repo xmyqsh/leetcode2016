@@ -19,3 +19,23 @@ public:
         return reached[pos];
     }
 };
+
+// Top-Down Solution
+class Solution {
+public:
+    bool canCross(vector<int>& stones) {
+        unordered_map<int, int> mp;
+        for (int i = 0; i != stones.size(); ++i) mp[stones[i]] = i;
+        for (int i = stones.size() - 2; i >= 0; --i)
+            if (canCross(mp, stones[i], stones[stones.size() - 1] - stones[i]))
+                return true;
+        return false;
+    }
+    bool canCross(unordered_map<int, int>& mp, int cur, int step) {
+        if (step == 0 || cur < 0 || !mp.count(cur)) return false;
+        if (cur == 0 && step == 1) return true;
+        return canCross(mp, cur - (step - 1), step - 1) ||
+                canCross(mp, cur - step, step) ||
+                canCross(mp, cur - (step + 1), step + 1);
+    }
+};
