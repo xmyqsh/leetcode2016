@@ -8,6 +8,7 @@ public:
         for (auto num : nums) {
             for (int i = target; i >= num; --i)
                 dp[i] = dp[i] | dp[i - num];
+            if (dp[target]) return true;
         }
         return dp[target];
     }
