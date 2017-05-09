@@ -57,3 +57,52 @@ public:
 // numArray.sumRange(0, 1);
 // numArray.update(1, 10);
 // numArray.sumRange(1, 2);
+
+// Binary Index Tree
+class NumArray {
+public:
+    NumArray(vector<int> nums) {
+        sum.resize(nums.size() + 1);
+        numsBK.resize(nums.size());
+        fill(numsBK.begin(), numsBK.end(), 0);
+        fill(sum.begin(), sum.end(), 0);
+        for (int i = 0; i != nums.size(); ++i)
+            update(i, nums[i]);
+    }
+    
+    void update(int i, int val) {
+        int idx = i + 1;
+        do {
+            sum[idx] += (val - numsBK[i]);
+            idx += lowbit(idx);
+        } while (idx < sum.size());
+        numsBK[i] = val;
+    }
+    
+    int sumRange(int i, int j) {
+        return query(j) - query(i - 1);
+    }
+    
+    int query(int i) {
+        int ret = 0, idx = i + 1;
+        do {
+            ret += sum[idx];
+            idx -= lowbit(idx);
+        } while (idx > 0);
+        return ret;
+    }
+    
+    int lowbit(int n) {
+        return (n & (n ^ (n - 1)));
+    }
+private:
+    vector<int> sum;
+    vector<int> numsBK;
+};
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * obj.update(i,val);
+ * int param_2 = obj.sumRange(i,j);
+ */
