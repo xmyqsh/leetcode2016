@@ -50,3 +50,49 @@ public:
         return query(root->left, start, mid) + query(root->right, mid + 1, end);
     }
 };
+
+// Binary Index Tree
+// with inputs compact
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        vector<int> nums2(nums);
+        sort(nums2.begin(), nums2.end());
+        int hashVal = 1;
+        for (int i = 0; i != nums2.size(); ++i)
+            if (!mp.count(nums2[i]))
+                mp[nums2[i]] = hashVal++;
+        for (int i = 0; i != nums.size(); ++i)
+            nums2[i] = mp[nums[i]];
+        cnt.resize(hashVal);
+        fill(cnt.begin(), cnt.end(), 0);
+        for (auto num : nums2)
+            modify(num, 1);
+        vector<int> result;
+        for (auto num : nums2) {
+            modify(num, -1);
+            result.push_back(query(num - 1));
+        }
+        return result;
+    }
+    void modify(int idx, int val) {
+        do {
+            cnt[idx] += val;
+            idx += lowbit(idx);
+        } while (idx < cnt.size());
+    }
+    int query(int idx) {
+        int ret = 0;
+        do {
+            ret += cnt[idx];
+            idx -= lowbit(idx);
+        } while (idx > 0);
+        return ret;
+    }
+    int lowbit(int n) {
+        return (n & (n ^ (n - 1)));
+    }
+private:
+    vector<int> cnt;
+    unordered_map<int, int> mp;
+};
