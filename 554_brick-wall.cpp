@@ -18,3 +18,22 @@ public:
         return result;
     }
 };
+
+// : Memory Limit Exceeded
+class Solution {
+public:
+    int leastBricks(vector<vector<int>>& wall) {
+        int width = 0;
+        for (auto w : wall[0]) width += w;
+        vector<int> mp(width, wall.size()); // 1 ~ (width - 1)
+        for (auto& line : wall) {
+            int b = 0;
+            for (int i = 0; i != line.size() - 1; ++i)
+                --mp[b += line[i]];
+        }
+        int result = wall.size();
+        for (int i = 1; i != mp.size(); ++i)
+            result = min(mp[i], result);
+        return result;
+    }
+};
