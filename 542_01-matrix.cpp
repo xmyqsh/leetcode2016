@@ -39,3 +39,30 @@ public:
         return dis;
     }
 };
+
+// bfs with trick
+class Solution {
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        if (matrix.empty() || matrix[0].empty()) return matrix;
+        queue<pair<int, int> > q; 
+        for (int i = 0; i != matrix.size(); ++i) {
+            for (int j = 0; j != matrix[0].size(); ++j)
+                if (matrix[i][j]) matrix[i][j] = INT_MAX;
+                else q.push(make_pair(i, j));
+        }
+        vector<vector<int> > dir = { {0, -1}, {-1, 0}, {0, 1}, {1, 0} };
+        while (!q.empty()) {
+            pair<int, int> p = q.front(); q.pop();
+            for (int i = 0; i != 4; ++i) {
+                int x = p.first + dir[i][0];
+                int y = p.second + dir[i][1];
+                if (x == -1 || y == -1 || x == matrix.size() || y == matrix[0].size() ||
+                    matrix[x][y] <= matrix[p.first][p.second]) continue;
+                matrix[x][y] = matrix[p.first][p.second] + 1;
+                q.push(make_pair(x, y));
+            }
+        }
+        return matrix;
+    }
+};
