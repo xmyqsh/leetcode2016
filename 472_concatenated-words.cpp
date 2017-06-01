@@ -69,3 +69,33 @@ public:
         return result;
     }
 };
+
+// hash set is ok
+class Solution {
+public:
+    vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {
+        vector<string> result;
+        int minLen = INT_MAX, maxLen = 0;
+        unordered_set<string> st;
+        for (auto word : words) {
+            minLen = min(minLen, (int)word.size());
+            maxLen = max(maxLen, (int)word.size());
+            st.insert(word);
+        }
+        for (auto word : words) {
+            if (word.size() == minLen) continue;
+            vector<bool> dp(word.size() + 1, false);
+            dp[0] = true;
+            for (int i = 1; i != word.size() + 1; ++i) {
+                for (int j = minLen, pos = i - j; j != maxLen + 1 && pos >= 0; ++j, --pos) {
+                    if (dp[pos] && st.count(word.substr(pos, j))) {
+                        dp[i] = true;
+                        if (i == word.size() && pos != 0) result.push_back(word);
+                        break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};
