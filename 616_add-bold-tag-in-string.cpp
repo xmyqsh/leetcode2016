@@ -12,7 +12,6 @@ public:
         if (s.size() < minLen) return s;
         stringstream ss;
         bool hasB = false;
-        int begin = -1;
         for (int i = 0, end = -1; i != s.size(); ++i) {
             string t = i + maxLen < s.size() ? s.substr(i, maxLen) : s.substr(i);
             while (t.size() >= minLen) {
