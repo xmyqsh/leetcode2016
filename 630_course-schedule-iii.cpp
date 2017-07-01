@@ -45,3 +45,27 @@ public:
         return true;
     }
 };
+
+class Solution {
+public:
+    int scheduleCourse(vector<vector<int>>& courses) {
+        sort(courses.begin(), courses.end(), [](const vector<int>& v1, const vector<int>& v2) {
+            return v1[1] < v2[1];
+        });
+        priority_queue<int> pq;
+        int cur = 0;
+        for (auto course : courses) {
+            cur += course[0];
+            if (cur <= course[1]) {
+                pq.push(course[0]);
+            } else if (!pq.empty() && pq.top() > course[0]) {
+                cur -= pq.top();
+                pq.pop();
+                pq.push(course[0]);
+            } else {
+                cur -= course[0];
+            }
+        }
+        return pq.size();
+    }
+};
