@@ -3,7 +3,7 @@ public:
     string smallestGoodBase(string n) {
         unsigned long long num = stoll(n);
         for (int m = log((double)num) / log((double)2); m != 1; --m) {
-            unsigned long long base = pow((double)num, (double)1 / m);
+            unsigned long long base = pow(num, 1.0 / m);
             if (myPow(base, m + 1) - 1 == num * (base - 1))
                 return to_string(base);
         }
