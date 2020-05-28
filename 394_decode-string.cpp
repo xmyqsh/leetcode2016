@@ -25,3 +25,33 @@ public:
         return ss.str();
     }
 };
+
+// stack beats 100%
+class Solution {
+public:
+    string decodeString(string s) {
+        stringstream ss;
+        stack<pair<int, string>> sk;
+        int b = 0, e = 0;
+        while (e != s.size()) {
+            while (e != s.size() && isalpha(s[e])) {
+                if (sk.empty()) ss << s[e++];
+                else sk.top().second.push_back(s[e++]);
+            }
+            if (e == s.size()) break;
+            if (s[e] == ']') {
+                assert(!sk.empty());
+                auto p = sk.top(); sk.pop();
+                if (sk.empty()) while (p.first--) ss << p.second;
+                else while (p.first--) sk.top().second += p.second;
+            } else if (isdigit(s[e])){
+                b = e;
+                while (s[e] != '[') ++e;
+                sk.push({stoi(s.substr(b, e - b)), ""});
+            }
+            b = e + 1;
+            e = b;
+        }
+        return ss.str();
+    }
+};
