@@ -51,6 +51,10 @@ public:
 // which is the most compact version.                                         //
 ////////////////////////////////////////////////////////////////////////////////
 
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -65,46 +69,49 @@ public:
 
     // Encodes a tree to a single string.
     string serialize(TreeNode* root) {
-        stringstream ss;
         queue<TreeNode*> q;
-        q.push(root);
-        while (!q.empty()) {
+        int cnt = 0;
+        if (root) {
+            q.push(root);
+            ++cnt;
+        }
+        stringstream ss;
+        while (!q.empty() && cnt) {
             root = q.front(); q.pop();
-            if (!root) ss << '#' << ',';
-            else {
-                ss << to_string(root->val) << ',';
+            if (root) {
+                --cnt;
+                ss << to_string(root->val);
                 q.push(root->left);
                 q.push(root->right);
+                if (root->left) ++cnt;
+                if (root->right) ++cnt;
+            } else {
+                ss << 'N';
             }
+            ss << '#';
         }
-        string ret = ss.str();
-        while (!ret.empty() && (ret.back() == ',' || ret.back() == '#')) ret.pop_back();
-        cout << ret << endl;
-        return ret;
+        return ss.str();
     }
 
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-        if (data.empty()) return NULL;
-        TreeNode dummy(-1);
-        TreeNode** root = &dummy.left;
+        TreeNode Dummy(-1);
+        TreeNode** pRoot = &Dummy.left;
         queue<TreeNode**> q;
-        q.push(root);
-        int b, e;
-        for (b = 0, e = 0; e != data.size(); ++e) {
-            if (data[e] != ',') continue;
-            root = q.front(); q.pop();
-            if (data[b] == '#') *root = NULL;
-            else {
-                *root = new TreeNode(stoi(data.substr(b, e - b)));
-                q.push(&(*root)->left);
-                q.push(&(*root)->right);
+        q.push(pRoot);
+        for (int b = 0, e = 0; e != data.size(); ++e) {
+            if (data[e] != '#') continue;
+            pRoot = q.front(); q.pop();
+            if (data[b] == 'N') {
+                *pRoot = NULL;
+            } else {
+                *pRoot = new TreeNode(stoi(data.substr(b, e - b)));
+                q.push(&(*pRoot)->left);
+                q.push(&(*pRoot)->right);
             }
             b = e + 1;
         }
-        root = q.front(); q.pop();
-        *root = new TreeNode(stoi(data.substr(b, e - b)));
-        return dummy.left;
+        return Dummy.left;
     }
 };
 
