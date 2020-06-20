@@ -1,6 +1,8 @@
 // target sequence a1a2...an
 // a1 = k / (n - 1)!
 // k %= (n - 1)!
+// Be aware!
+// max(k) = n!, min(k) = 1
 class Solution {
 public:
     string getPermutation(int n, int k) {
@@ -18,11 +20,13 @@ public:
             cnt /= n - i;
             // inplace move s[k / (n - i - 1)!] to s[i]
             for (sum = 0, j = 1; i + j <= n; ++j) {
+                // Be aware! sum + cnt == k
                 if (sum + cnt >= k) break;
                 sum += cnt;
                 swap(s[i], s[i + j]);
             }
-            // k = k % (n - i - 1)!
+            // Be aware!
+            // k = 1 + (k - 1) % (n - i - 1)!
             k -= sum;
         }
         return s;
