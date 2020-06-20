@@ -21,3 +21,14 @@ public:
         return s;
     }
 };
+
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        stringstream ss;
+        for (int i = 1; i != n + 1; ++i) ss << i;
+        string seq = ss.str();
+        while (--k) next_permutation(seq.begin(), seq.end());
+        return seq;
+    }
+};
