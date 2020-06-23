@@ -1,3 +1,5 @@
+// O(NlogN)
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -20,7 +22,8 @@ public:
     }
 };
 
-// Best O(logN) with large probability, Worse O(N)
+// O(logN)
+// countNodes(root->left) at most once when root->right != NULL
 
 /**
  * Definition for a binary tree node.
