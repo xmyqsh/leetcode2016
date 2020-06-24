@@ -1,3 +1,4 @@
+// Same as solution 3
 class Solution {
 public:
     int minSteps(int n) {
@@ -48,3 +49,20 @@ public:
 10: A --> AA --> AAAA --> AAAAAA --> AAAAAAAA --> AAAAAAAAAA                            AA
 24: A --> AA --> AAAA --> AAAAAAAA --> AAAAAAAAAAAAAAAA --> AAAAAAAAAAAAAAAAAAAAAAAA    AAAAAAAA
 */
+
+// Same as solution 1
+class Solution {
+public:
+    int minSteps(int n) {
+        // [CPP][CPPPP][CP] <<-->> len1 * len2 * len3 = n  ---> op = len1 + len2 + len3
+        int d = 2, cnt = 0;
+        while (n != 1) {
+            while (n % d == 0) {
+                cnt += d;
+                n /= d;
+            }
+            ++d;
+        }
+        return cnt;
+    }
+};
