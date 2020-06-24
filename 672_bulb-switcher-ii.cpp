@@ -34,7 +34,7 @@ property 0: n's period is 6(can be further reduced to 3)
 1   3   5   | 7   9   B
 1     4     | 7     A
 
-According to 1 and 2, m's period is 4^2 = 16
+According to 1 and 2, m's period is 2^4 = 16
 property 1: operation order unaware
 property 2: ivertable operation
 1 <--> 1            ---> 2 operation
